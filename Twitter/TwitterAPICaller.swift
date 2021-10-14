@@ -64,4 +64,44 @@ class TwitterAPICaller: BDBOAuth1SessionManager {
         })
     }
     
+    func postTweet(tweetString: String, success: @escaping () -> (), failure: @escaping (Error) -> ()){
+        let url = "https://api.twitter.com/1.1/statuses/update.json"
+        let parameter = ["status":tweetString]
+        TwitterAPICaller.client?.post(url, parameters: parameter, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            success()
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+        })
+    }
+    
+    func favoriteTweet(tweetId: Int, success: @escaping() -> (), failure: @escaping (Error) ->()){
+        let url = "https://api.twitter.com/1.1/favorites/create.json"
+        let parameter = ["id":tweetId]
+        TwitterAPICaller.client?.post(url, parameters: parameter, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            success()
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+        })
+    }
+    
+    func unfavoriteTweet(tweetId: Int, success: @escaping() -> (), failure: @escaping (Error) ->()){
+        let url = "https://api.twitter.com/1.1/favorites/destroy.json"
+        let parameter = ["id":tweetId]
+        TwitterAPICaller.client?.post(url, parameters: parameter, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            success()
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+        })
+    }
+    
+    func retweet(tweetId: Int, success: @escaping() -> (), failure: @escaping (Error) ->()){
+        let url = "https://api.twitter.com/1.1/statuses/retweet/\(tweetId).json"
+        let parameter = ["id":tweetId]
+        TwitterAPICaller.client?.post(url, parameters: parameter, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            success()
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+        })
+    }
+    
 }
